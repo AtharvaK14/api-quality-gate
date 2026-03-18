@@ -23,7 +23,7 @@ jobs:
 
       - name: Run smoke tests
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
         # -p no:xdist keeps smoke tests serial for cleaner CI output
         run: pytest -m smoke -p no:xdist --alluredir=allure-results -v
 
@@ -53,7 +53,7 @@ jobs:
 
       - name: Run full suite (parallel)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
         run: pytest --alluredir=allure-results -v
 
       - name: Upload Allure results
