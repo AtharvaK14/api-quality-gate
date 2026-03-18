@@ -4,7 +4,7 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-**[Live Allure Report](https://AtharvaK14.github.io/api-quality-gate/)**
+**[Live Allure Report](https://YOUR_USERNAME.github.io/api-quality-gate/)**
 
 Production-grade API test automation framework targeting the GitHub REST API. Covers functional correctness, schema validation, error path coverage, and per-endpoint performance SLAs. Tests run on every push and on a nightly schedule, with results published to a live Allure report via GitHub Pages.
 

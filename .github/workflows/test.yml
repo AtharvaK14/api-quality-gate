@@ -54,7 +54,7 @@ jobs:
       - name: Run full suite (parallel)
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
-        run: pytest --alluredir=allure-results -v
+        run: pytest -n auto --alluredir=allure-results -v
 
       - name: Upload Allure results
         if: always()
