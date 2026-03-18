@@ -1,0 +1,42 @@
+name: Publish Allure Report
+
+on:
+  workflow_run:
+    workflows: ["API Quality Gate"]
+    types: [completed]
+
+# Required for peaceiris/actions-gh-pages to push to gh-pages branch
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Generate and Deploy Report
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Allure results artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Allure HTML report
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          # Keeps last 20 runs visible in the trend graph
+          keep_reports: 20
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
