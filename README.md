@@ -10,6 +10,16 @@ Production-grade API test automation framework targeting the GitHub REST API. Co
 
 ---
 
+## Prerequisites
+
+| Requirement | Notes |
+|---|---|
+| Python 3.11+ | `python --version` to verify |
+| GitHub PAT | Settings > Developer Settings > Personal Access Tokens > Fine-grained tokens. Needs `repo` read scope. |
+| Allure CLI | Required only for local report generation. Install via [the official docs](https://allurereport.org/docs/install/). |
+
+---
+
 ## What This Tests
 
 | Endpoint | Test Type | Count | SLA |
@@ -44,13 +54,19 @@ Production-grade API test automation framework targeting the GitHub REST API. Co
 
 ```bash
 # Set up environment
-python -m venv venv && source venv/bin/activate
+python -m venv venv
+
+source venv/bin/activate        # Mac/Linux
+venv\Scripts\activate           # Windows
+
 pip install -r requirements.txt
 
-# Export your GitHub PAT (optional, but increases rate limits)
-export GITHUB_TOKEN=ghp_your_token_here
+# Export your GitHub PAT (optional, but increases rate limits and enables auth tests)
+export GITHUB_TOKEN=ghp_your_token_here   # Mac/Linux
+set GITHUB_TOKEN=ghp_your_token_here      # Windows CMD
+$env:GITHUB_TOKEN="ghp_your_token_here"  # Windows PowerShell
 
-# Run smoke tests only
+# Run smoke tests only (fast, serial)
 pytest -m smoke -p no:xdist -v
 
 # Run full suite (parallel)
@@ -62,7 +78,7 @@ pytest -m performance -v
 # Lint
 ruff check src/ tests/
 
-# Generate and open Allure report locally (requires allure CLI)
+# Generate and open Allure report locally (requires Allure CLI)
 allure serve allure-results
 ```
 
