@@ -7,6 +7,9 @@ on:
     - cron: "0 6 * * *"   # nightly at 06:00 UTC
   workflow_dispatch:        # allows manual trigger from the Actions tab
 
+permissions:
+  contents: read
+
 jobs:
   smoke:
     name: Smoke Gate
@@ -23,8 +26,7 @@ jobs:
 
       - name: Run smoke tests
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
-        # -p no:xdist keeps smoke tests serial for cleaner CI output
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pytest -m smoke -p no:xdist --alluredir=allure-results -v
 
       - name: Upload smoke Allure results
@@ -37,7 +39,7 @@ jobs:
   full-suite:
     name: Full Regression Suite
     runs-on: ubuntu-latest
-    needs: smoke     # only runs if smoke gate passes
+    needs: smoke
     steps:
       - uses: actions/checkout@v4
 
@@ -53,7 +55,7 @@ jobs:
 
       - name: Run full suite (parallel)
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pytest -n auto --alluredir=allure-results -v
 
       - name: Upload Allure results
