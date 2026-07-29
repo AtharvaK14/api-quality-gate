@@ -8,7 +8,6 @@ adversarial thinking about quality beyond the happy path.
 import pytest
 import allure
 from src.data.test_data import Users, Repos
-from tests.conftest import auth_client
 
 
 @allure.feature("Error Handling")
